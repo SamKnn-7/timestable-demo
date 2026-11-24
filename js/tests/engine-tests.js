@@ -47,6 +47,12 @@
   test('teaching week of NOW is 9', () => eq(M.teachingWeek(baseState().semester, NOW), 9));
   test('roundUp lands on the 15-minute grid', () => { const t = T.roundUp(new Date(2026, 10, 17, 10, 7, 30).getTime(), 15); eq(T.hm(t), '10:15'); });
   test('roundUp near midnight rolls to the next day', () => { const t = T.roundUp(new Date(2026, 10, 17, 23, 55).getTime(), 15); eq(T.dateKey(t), '2026-11-18'); eq(T.hm(t), '00:00'); });
+  test('a store holding Undo functions (toasts) can be updated again', () => {
+    const s = TS.createStore([], { clone: false });
+    s.set((l) => [...l, { id: 1, action: { run: () => 1 } }]);
+    s.set((l) => [...l, { id: 2 }]);
+    eq(s.get().length, 2); eq(s.get()[0].action.run(), 1);
+  });
 
   /* ---------- chunking ---------- */
   test('chunkSizes sums to the total and stays near the session length', () => {

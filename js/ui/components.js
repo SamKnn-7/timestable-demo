@@ -5,7 +5,7 @@
   const T = TS.time;
 
   /* ---------- Overlay manager (one sheet/dialog at a time) ---------- */
-  const overlayStore = TS.createStore(null);
+  const overlayStore = TS.createStore(null, { clone: false });
   TS.openOverlay = (kind, props = {}) => overlayStore.set(() => ({ kind, props, key: TS.uid('ov') }));
   TS.closeOverlay = () => overlayStore.set(() => null);
   TS.useOverlay = () => TS.useSyncExternalStore(overlayStore.subscribe, overlayStore.get);

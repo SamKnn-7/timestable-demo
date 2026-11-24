@@ -134,14 +134,16 @@
   };
 
   /* ---------- Tiny external store ---------- */
-  TS.createStore = function createStore(initial, { persistKey } = {}) {
+  /* `clone: false` is for stores holding functions (e.g. toast Undo actions), which
+     can't be deep-copied; their updaters must return a new value instead of mutating. */
+  TS.createStore = function createStore(initial, { persistKey, clone = true } = {}) {
     let state = initial;
     const listeners = new Set();
     let saveTimer = null;
     const store = {
       get: () => state,
       set(updater) {
-        const draft = typeof structuredClone === 'function' ? structuredClone(state) : JSON.parse(JSON.stringify(state));
+        const draft = !clone ? state : typeof structuredClone === 'function' ? structuredClone(state) : JSON.parse(JSON.stringify(state));
         const result = updater(draft);
         state = result === undefined ? draft : result;
         listeners.forEach((l) => l());
@@ -155,7 +157,7 @@
   };
 
   /* ---------- Toasts (not persisted) ---------- */
-  const toastStore = TS.createStore([]);
+  const toastStore = TS.createStore([], { clone: false });
   TS.toast = (message, opts = {}) => {
     const id = TS.uid('t');
     toastStore.set((list) => [...list.slice(-2), { id, message, tone: opts.tone || 'info', action: opts.action || null }]);

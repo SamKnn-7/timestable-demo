@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en-IE">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TimeStable engine tests</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..700&family=Hanken+Grotesk:wght@400..700&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+<div class="page" id="results" style="max-width:860px">Running…</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/htm@3.1.1/dist/htm.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<script>
+  // Isolate tests from the app's saved data.
+  window.TS = { brand: null };
+</script>
+<script src="js/core.js"></script>
+<script>TS.brand.storageKey = 'timestable.tests.v1';</script>
+<script src="js/data/dcu-ece2-2026.js"></script>
+<script src="js/data/loop-demo.js"></script>
+<script src="js/engine/model.js"></script>
+<script src="js/engine/scheduler.js"></script>
+<script src="js/engine/ics.js"></script>
+<script src="js/state.js"></script>
+<script src="js/ui/components.js"></script>
+<script src="js/views/insights.js"></script>
+<script src="js/tests/engine-tests.js"></script>
+</body>
+</html>
